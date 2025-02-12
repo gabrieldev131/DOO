@@ -11,7 +11,7 @@ public class CircuitBreakerExample {
             try {
                 System.out.println(decoratedSupplier.get());
             } catch (Exception e) {
-                System.out.println("⚠️ Circuit Breaker ativado!");
+                System.out.println("Circuit Breaker ativado!");
             }
         }
     }
