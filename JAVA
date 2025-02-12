@@ -1,0 +1,22 @@
+import io.github.resilience4j.circuitbreaker.*;
+
+public class CircuitBreakerExample {
+    public static void main(String[] args) {
+        CircuitBreaker circuitBreaker = CircuitBreaker.ofDefaults("myCircuitBreaker");
+
+        Supplier<String> decoratedSupplier = CircuitBreaker
+            .decorateSupplier(circuitBreaker, CircuitBreakerExample::callService);
+
+        for (int i = 0; i < 5; i++) {
+            try {
+                System.out.println(decoratedSupplier.get());
+            } catch (Exception e) {
+                System.out.println("⚠️ Circuit Breaker ativado!");
+            }
+        }
+    }
+
+    public static String callService() {
+        throw new RuntimeException("Falha na API externa!");
+    }
+}
