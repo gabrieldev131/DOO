@@ -1,0 +1,16 @@
+import pybreaker
+import requests
+
+# Criando o Circuit Breaker
+circuit_breaker = pybreaker.CircuitBreaker(fail_max=3, reset_timeout=10)
+
+@circuit_breaker
+def get_data():
+    response = requests.get("https://api.invalida.com")
+    return response.json()
+
+# Testando o Circuit Breaker
+try:
+    print(get_data())
+except pybreaker.CircuitBreakerError:
+    print("⚠️ Circuit Breaker Ativado! Aguardando recuperação...")
